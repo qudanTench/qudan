@@ -1,10 +1,9 @@
-package com.zhangheng.qingcloud.msvideo.mapper;
+package com.zhangheng.qingcloud.msqudan.mapper;
 
-import com.zhangheng.qingcloud.msvideo.entity.User;
-import com.zhangheng.qingcloud.msvideo.util.YHMapper;
+import com.zhangheng.qingcloud.msqudan.entity.User;
+import com.zhangheng.qingcloud.msqudan.util.YHMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

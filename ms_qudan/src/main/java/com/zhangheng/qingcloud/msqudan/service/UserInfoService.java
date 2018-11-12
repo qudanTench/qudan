@@ -1,6 +1,6 @@
-package com.zhangheng.qingcloud.msvideo.service;
+package com.zhangheng.qingcloud.msqudan.service;
 
-import com.zhangheng.qingcloud.msvideo.util.YHResult;
+import com.zhangheng.qingcloud.msqudan.util.YHResult;
 
 import java.util.Map;
 

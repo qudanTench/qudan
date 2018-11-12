@@ -17,7 +17,7 @@
         </encoder>  
     </appender>
 
-   <!-- <logger name="com.zhangheng.qingcloud.msvideo.util.logger" additivity="false">
+   <!-- <logger nacom.zhangheng.qingcloud.msqudanideo.util.logger" additivity="false">
         <level value="info" />
         <appender-ref ref="cpstdout" />
     </logger>-->

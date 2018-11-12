@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msvideo.entity;
+package com.zhangheng.qingcloud.msqudan.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

@@ -1,13 +1,13 @@
-package com.zhangheng.qingcloud.msvideo.controller;
+package com.zhangheng.qingcloud.msqudan.controller;
 
-import com.alibaba.fastjson.JSONObject;
-import com.zhangheng.qingcloud.msvideo.service.UserInfoService;
-import com.zhangheng.qingcloud.msvideo.util.YHResult;
+import com.zhangheng.qingcloud.msqudan.service.UserInfoService;
+import com.zhangheng.qingcloud.msqudan.util.YHResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,13 +24,13 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/msvideo/user")//窄化请求地址
-@Api(value = "msvideo", description = "用户信息")
+@Api(value = "msqudan", description = "用户信息")
 public class UserController {
 
     @Autowired
     private UserInfoService userInfoService;
 
-    private static Logger log = Logger.getLogger(UserController.class);
+    private final Logger log = LoggerFactory.getLogger(UserController.class);
 
 
     /**

@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msvideo.util;
+package com.zhangheng.qingcloud.msqudan.util;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
