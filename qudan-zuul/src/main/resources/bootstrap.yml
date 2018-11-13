@@ -1,8 +1,8 @@
 spring:
   application:
-    name: video-zuul
+    name: qudan-zuul
   cloud:
     config:
-      uri: http://user:123456@localhost:8888/
+      uri: http://user:123456@47.99.242.122:8888/
       profile: dev
       label: master

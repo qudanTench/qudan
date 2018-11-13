@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.zhangheng</groupId>
-	<artifactId>video-zuul</artifactId>
+	<artifactId>qudan-zuul</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>video-zuul</name>
+	<name>qudan-zuul</name>
 	<description>Demo project for Spring Boot</description>
 
 	<!--<parent>
