@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.PrintWriter;
@@ -74,6 +75,7 @@ public class PreFilter extends ZuulFilter{
         logger.info("过滤前被调用!!!");
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
+        HttpServletResponse response = ctx.getResponse();
         logger.info(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
         String authHeader = request.getHeader("authorization");
         if(!StringUtils.isEmpty(authHeader)) {
@@ -82,10 +84,10 @@ public class PreFilter extends ZuulFilter{
             if(claims!=null){
                 try {
                     logger.info("access token ok" + claims.toString());
-                    PrintWriter out = ctx.getResponse().getWriter();
-                    out.write(getJsonTokenIsOk(ctx,claims));
-                    out.flush();
-                    out.close();
+//                    ServletOutputStream outputStream = response.getOutputStream();
+//                    outputStream.write(getJsonTokenIsOk(response,claims).toString().getBytes("utf-8"));
+//                    outputStream.flush();
+//                    outputStream.close();
                 }catch (Exception e){
 
                 }
@@ -96,9 +98,10 @@ public class PreFilter extends ZuulFilter{
                 ctx.setSendZuulResponse(false);
                 ctx.setResponseStatusCode(401);
                 try {
-                    ctx.getResponse().setContentType("text/html;charset=UTF-8");
-                    ctx.getResponse().setCharacterEncoding("UTF-8");
-                    ctx.getResponse().getWriter().write("accessToken验证不通过!!!");
+                    ServletOutputStream outputStream = response.getOutputStream();
+                    outputStream.write(getJsonTokenIsNo(response).toString().getBytes("utf-8"));
+                    outputStream.flush();
+                    outputStream.close();
                 }catch (Exception e){
 
                 }
@@ -110,10 +113,10 @@ public class PreFilter extends ZuulFilter{
             ctx.setSendZuulResponse(false);
             ctx.setResponseStatusCode(401);
             try {
-                PrintWriter out = ctx.getResponse().getWriter();
-                out.write(getJsonTokenIsEmpty(ctx));
-                out.flush();
-                out.close();
+                ServletOutputStream outputStream = response.getOutputStream();
+                outputStream.write(getJsonTokenIsEmpty(response).toString().getBytes("utf-8"));
+                outputStream.flush();
+                outputStream.close();
             }catch (Exception e){
 
             }
@@ -126,25 +129,45 @@ public class PreFilter extends ZuulFilter{
      * @return
      */
     @ResponseBody
-    public String getJsonTokenIsEmpty(RequestContext ctx){
+    public String getJsonTokenIsEmpty(HttpServletResponse response){
         JSONObject jsonDate = new JSONObject();
-        ctx.getResponse().setStatus(HttpServletResponse.SC_FORBIDDEN);
-        ctx.getResponse().setContentType("text/html;charset=UTF-8");
-        ctx.getResponse().setCharacterEncoding("UTF-8");
-        jsonDate.put("status",ctx.getResponseStatusCode());
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        jsonDate.put("status",response.getStatus());
         jsonDate.put("msg","accessToken is empty!");
         return jsonDate.toString();
     }
 
+    /**
+     * 验证通过
+     * @param response
+     * @param claims
+     * @return
+     */
     @ResponseBody
-    public String getJsonTokenIsOk(RequestContext ctx,Claims claims){
+    public String getJsonTokenIsOk(HttpServletResponse response,Claims claims){
         JSONObject jsonDate = new JSONObject();
-        ctx.getResponse().setStatus(HttpServletResponse.SC_FORBIDDEN);
-        ctx.getResponse().setContentType("text/html;charset=UTF-8");
-        ctx.getResponse().setCharacterEncoding("UTF-8");
-        jsonDate.put("status",ctx.getResponseStatusCode());
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        jsonDate.put("status",response.getStatus());
         jsonDate.put("msg","access token ok!");
         jsonDate.put("data",claims);
+        return jsonDate.toString();
+    }
+
+    /**
+     * 验证不通过
+     */
+    @ResponseBody
+    public String getJsonTokenIsNo(HttpServletResponse response){
+        JSONObject jsonDate = new JSONObject();
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("UTF-8");
+        jsonDate.put("status",response.getStatus());
+        jsonDate.put("msg","accessToken验证不通过!!!");
         return jsonDate.toString();
     }
 

@@ -56,7 +56,7 @@ public class VUserInfoController {
             HttpServletRequest request
       ){
           try {
-              long ttlMillis = 1000 * 60;//过期时间
+              long ttlMillis = 1000 * 60 * 60;//过期时间(单位毫秒)
               String token  = JwtUtil.createJWT(userId, "qudan", "趣单",ttlMillis,"");
               Map<String,Object> params = new HashMap<>();
               params.put("token",token);

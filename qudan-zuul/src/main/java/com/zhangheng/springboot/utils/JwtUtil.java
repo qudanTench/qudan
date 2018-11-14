@@ -106,7 +106,7 @@ public class JwtUtil {
                 .setAudience(audience)
                 .signWith(signatureAlgorithm,signingKey);
         //设置Token的过期时间
-        if(ttlMillis >=0){
+        if(ttlMillis >= 0){
             long expMillis = nowMillis + ttlMillis;
             Date exp = new Date(expMillis);
             jwtBuilder.setExpiration(exp);
