@@ -29,7 +29,7 @@ public class SwaggerConfig {
  
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "提供给react的微服务Resful API", "","1.0", "", "万事屋","", null);
+                "zuul微服务Resful API", "","1.0", "", "趣单","", null);
         return apiInfo;
     }
 }
