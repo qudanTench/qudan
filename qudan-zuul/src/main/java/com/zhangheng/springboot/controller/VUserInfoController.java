@@ -1,8 +1,6 @@
 package com.zhangheng.springboot.controller;
 
-import com.zhangheng.springboot.entrty.Audience;
 import com.zhangheng.springboot.feign.UserInfoFeign;
-//import com.zhangheng.springboot.handler.UrlAccessDecisionManager;
 import com.zhangheng.springboot.utils.JwtUtil;
 import com.zhangheng.springboot.utils.YHResult;
 import io.jsonwebtoken.Claims;
@@ -37,8 +35,6 @@ public class VUserInfoController {
      */
     @Autowired
     private UserInfoFeign userInfoFeign;
-    @Autowired
-    private Audience audience;
 
 
     //日志
