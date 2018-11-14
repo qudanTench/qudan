@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.zhangheng.springboot.controller.VUserInfoController;
-import com.zhangheng.springboot.entrty.Audience;
 import com.zhangheng.springboot.utils.JwtUtil;
 import io.jsonwebtoken.Claims;
 import org.slf4j.Logger;
@@ -30,8 +29,6 @@ public class PreFilter extends ZuulFilter{
     //日志
     private final static Logger logger = LoggerFactory.getLogger(PreFilter.class);
 
-    @Autowired
-    private Audience audience;
 
     /**
      * 返回一个字符代表过滤器的类型，在zuul中定义了四种不同生命周期的过滤器类型。
