@@ -56,11 +56,14 @@ public class VUserInfoController {
             HttpServletRequest request
       ){
           try {
+              /**
+               * 登录根据数据库的逻辑处理
+               */
               long ttlMillis = 1000 * 60 * 60;//过期时间(单位毫秒)
               String token  = JwtUtil.createJWT(userId, "qudan", "趣单",ttlMillis,"");
               Map<String,Object> params = new HashMap<>();
               params.put("token",token);
-//              YHResult appLogin = userInfoFeign.appLogin(params.get("username")+"", params.get("password")+"");
+              params.put("expiration",ttlMillis);
               return YHResult.build(200,"登录成功!",params);
           }catch (Exception e){
               logger.error(e.getMessage());
@@ -68,4 +71,29 @@ public class VUserInfoController {
               return YHResult.build(500,"接口异常!");
           }
       }
+
+    /**
+     * 刷新token
+     */
+    @ApiOperation(value = "刷新token", response = String.class, notes = "刷新token", httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", required = true, name = "token", dataType = "String", value = "过期token"),
+    })
+    @PostMapping("/refreshToken")
+    public YHResult refreshToken(
+            @RequestParam(value = "token", required = true) String token,
+            HttpServletRequest request
+    ){
+        try {
+            String refreshToken = JwtUtil.refreshToken(token);
+            Map<String,Object> params = new HashMap<>();
+            params.put("refreshToken",refreshToken);
+            return YHResult.build(200,"登录成功!",params);
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            logger.error("refreshToken 异常!");
+            return YHResult.build(500,"接口异常!");
+        }
+    }
+
 }

@@ -118,7 +118,6 @@ public class JwtUtil {
 
     //私钥解密token信息
     public static Claims getClaims(String jwt) {
-
         try{
             return Jwts.parser()
                     .setSigningKey(DatatypeConverter.parseBase64Binary(APP_KEY))
@@ -128,4 +127,25 @@ public class JwtUtil {
             return null;
         }
     }
+
+    /**
+     * 刷新token
+     */
+    public static String refreshToken(String token) {
+        //设置刷新时间
+        long ttlMillis = 1000 * 60 * 60;//过期时间(单位毫秒)
+        String refreshedToken;
+        try {
+            final Claims claims = getClaims(token);
+            refreshedToken =createJWT(claims.getId(),claims.getIssuer(),claims.getSubject(),ttlMillis,claims.getAudience());
+        } catch (Exception e) {
+            refreshedToken = null;
+        }
+        return refreshedToken;
+    }
+
+    /**
+     * 退出登录 让token无效
+     */
+
 }

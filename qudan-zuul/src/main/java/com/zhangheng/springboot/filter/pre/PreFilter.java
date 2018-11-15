@@ -93,7 +93,7 @@ public class PreFilter extends ZuulFilter{
                 }
                 return null;
             }else{
-                logger.warn("accessToken验证不通过!!!");
+                logger.warn("accessToken无效或已过期!");
                 //设置不过滤该请求。并且返回错误码
                 ctx.setSendZuulResponse(false);
                 ctx.setResponseStatusCode(401);
@@ -167,7 +167,7 @@ public class PreFilter extends ZuulFilter{
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         jsonDate.put("status",response.getStatus());
-        jsonDate.put("msg","accessToken验证不通过!!!");
+        jsonDate.put("msg","accessToken无效或已过期!");
         return jsonDate.toString();
     }
 
