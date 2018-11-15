@@ -13,6 +13,7 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by 蜡笔小新不爱吃青椒 on 2018/11/13.
@@ -23,83 +24,34 @@ public class JwtUtil {
 
     private static final String APP_KEY = "qudan_key"; //进行数字签名的私钥，一定要保管好
 
-//    /**
-//     *
-//     * @param username
-//     * @param userId
-//     * @param audience
-//     * @param issuer
-//     * @param TTLMillis
-//     * @param base64Security
-//     * @return
-//     */
-//    public static String createJWT(String username, Integer userId,
-//                                   String audience, String issuer, long TTLMillis, String base64Security){
-//        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-//
-//        long nowMillis = System.currentTimeMillis();
-//        Date now = new Date(nowMillis);
-//
-//        //生成签名密钥
-//        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(base64Security);
-//        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-//
-//        //添加构成JWT的参数
-//        JwtBuilder builder = Jwts.builder().setHeaderParam("typ", "JWT")
-//                .claim("unique_name", username)
-//                .claim("userid", userId)
-//                .setIssuer(issuer)
-//                .setAudience(audience)
-//                .signWith(signatureAlgorithm, signingKey);
-//        //添加Token过期时间
-//        if (TTLMillis >= 0) {
-//            long expMillis = nowMillis + TTLMillis;
-//            Date exp = new Date(expMillis);
-//            builder.setExpiration(exp).setNotBefore(now);
-//        }
-//
-//        //生成JWT
-//        return builder.compact();
-//    }
-//
-//    /**
-//     * 解析jwt
-//     */
-//    public static Claims parseJWT(String jsonWebToken, String base64Security){
-//        try{
-//            Claims claims = Jwts.parser()
-//                    .setSigningKey(DatatypeConverter.parseBase64Binary(base64Security))
-//                    .parseClaimsJws(jsonWebToken).getBody();
-//            return claims;
-//        }catch (Exception e){
-//            logger.error(e.getMessage());
-//            return null;
-//        }
-//    }
+    private static final String CLAIM_KEY_CREATED = "created";//创建时间
+
 
     /**
      * 一个JWT实际上就是一个字符串，它由三部分组成，头部(Header)、载荷(Payload)与签名(Signature)
-     * @param id 当前用户ID
+     * @param claims 当前用户信息
      * @param issuer 该JWT的签发者，是否使用是可选的
      * @param subject 该JWT所面向的用户，是否使用是可选的
      * @param ttlMillis 什么时候过期，这里是一个Unix时间戳，是否使用是可选的
      * @param audience 接收该JWT的一方，是否使用是可选的
      * @return
      */
-    public static String createJWT(String id,String issuer,String subject,long ttlMillis, String audience){
+    public static String createJWT(Map<String,Object> claims,String issuer,String subject,long ttlMillis, String audience){
 
 
         SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
-
+        //生成uuid
+        String uuid = UUID.randomUUID().toString().replaceAll("-","");
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
         byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(APP_KEY);
 
         Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
-
+        claims.put(CLAIM_KEY_CREATED,new Date());//创建时间
         JwtBuilder jwtBuilder = Jwts.builder()
-                .setId(id)
+                .setId(uuid)//随机jwt_id 这里用userid
+                .setClaims(claims)//用户信息
                 .setSubject(subject)
                 .setIssuedAt(now)
                 .setIssuer(issuer)
@@ -111,41 +63,59 @@ public class JwtUtil {
             Date exp = new Date(expMillis);
             jwtBuilder.setExpiration(exp);
         }
-
         return jwtBuilder.compact();
 
     }
 
     //私钥解密token信息
     public static Claims getClaims(String jwt) {
+        Claims claims;
         try{
-            return Jwts.parser()
-                    .setSigningKey(DatatypeConverter.parseBase64Binary(APP_KEY))
-                    .parseClaimsJws(jwt).getBody();
+            claims = Jwts.parser()
+                     .setSigningKey(DatatypeConverter.parseBase64Binary(APP_KEY))
+                     .parseClaimsJws(jwt).getBody();
         }catch (Exception e){
             logger.error(e.getMessage());
-            return null;
+            claims = null;
         }
+        return claims;
+    }
+
+    public static String generateToken(Map<String, Object> claims) {
+        //设置刷新时间
+        long ttlMillis = 1000 * 60 * 60;//过期时间(单位毫秒)
+        long nowMillis = System.currentTimeMillis();
+        long expMillis = nowMillis + ttlMillis;
+        Date exp = new Date(expMillis);
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(APP_KEY);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+        return Jwts.builder()
+                .setClaims(claims)
+                .setExpiration(exp)//设置超时间
+                .signWith(signatureAlgorithm,signingKey)
+                .compact();
     }
 
     /**
      * 刷新token
      */
     public static String refreshToken(String token) {
-        //设置刷新时间
-        long ttlMillis = 1000 * 60 * 60;//过期时间(单位毫秒)
+
         String refreshedToken;
         try {
             final Claims claims = getClaims(token);
-            refreshedToken =createJWT(claims.getId(),claims.getIssuer(),claims.getSubject(),ttlMillis,claims.getAudience());
-        } catch (Exception e) {
+            if(claims != null){
+                //不等于空的情况刷新token时间
+                claims.put(CLAIM_KEY_CREATED,new Date());
+                refreshedToken = generateToken(claims);
+            }else{
+                //token已经过期
+                return null;
+            }
+        }catch (Exception e){
             refreshedToken = null;
         }
         return refreshedToken;
     }
-
-    /**
-     * 退出登录 让token无效
-     */
-
 }

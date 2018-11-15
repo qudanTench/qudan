@@ -158,12 +158,12 @@ public class PreFilter extends ZuulFilter{
     }
 
     /**
-     * 验证不通过
+     * 验证不通过过期返回400
      */
     @ResponseBody
     public String getJsonTokenIsNo(HttpServletResponse response){
         JSONObject jsonDate = new JSONObject();
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.setContentType("text/html;charset=UTF-8");
         response.setCharacterEncoding("UTF-8");
         jsonDate.put("status",response.getStatus());
