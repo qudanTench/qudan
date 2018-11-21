@@ -60,7 +60,16 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>-->
-
+        <!--添加监控服务-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>2.0.1</version>
+        </dependency>
         <!--添加日志管理依赖-->
         <dependency>
             <groupId>org.jolokia</groupId>
