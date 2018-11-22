@@ -1,7 +1,7 @@
-package com.zhangheng.qingcloud.msqudan.controller;
+package com.qudan.qingcloud.msqudan.controller;
 
-import com.zhangheng.qingcloud.msqudan.service.UserInfoService;
-import com.zhangheng.qingcloud.msqudan.util.YHResult;
+import com.qudan.qingcloud.msqudan.service.UserInfoService;
+import com.qudan.qingcloud.msqudan.util.YHResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -23,7 +23,7 @@ import java.util.Map;
  */
 
 @RestController
-@RequestMapping("/msvideo/user")//窄化请求地址
+@RequestMapping("/msqudan/user")//窄化请求地址
 @Api(value = "msqudan", description = "用户信息")
 public class UserController {
 

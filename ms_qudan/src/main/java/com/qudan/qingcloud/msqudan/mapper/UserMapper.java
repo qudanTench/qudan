@@ -1,7 +1,7 @@
-package com.zhangheng.qingcloud.msqudan.mapper;
+package com.qudan.qingcloud.msqudan.mapper;
 
-import com.zhangheng.qingcloud.msqudan.entity.User;
-import com.zhangheng.qingcloud.msqudan.util.YHMapper;
+import com.qudan.qingcloud.msqudan.util.YHMapper;
+import com.qudan.qingcloud.msqudan.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Repository
 @Mapper
-public interface UserMapper extends YHMapper<User>{
+public interface UserMapper extends YHMapper<User> {
 
     //根据用户名查询用户信息(包括角色)
     Map<String,Object> getUserInfoByUsername(@Param("username") String username);

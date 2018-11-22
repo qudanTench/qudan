@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan;
+package com.qudan.qingcloud.msqudan;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

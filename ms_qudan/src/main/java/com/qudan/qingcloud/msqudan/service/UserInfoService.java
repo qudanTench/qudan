@@ -1,6 +1,6 @@
-package com.zhangheng.qingcloud.msqudan.service;
+package com.qudan.qingcloud.msqudan.service;
 
-import com.zhangheng.qingcloud.msqudan.util.YHResult;
+import com.qudan.qingcloud.msqudan.util.YHResult;
 
 import java.util.Map;
 

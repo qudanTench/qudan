@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan.controller;
+package com.qudan.qingcloud.msqudan.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan.util;
+package com.qudan.qingcloud.msqudan.util;
 
 import com.github.pagehelper.PageInfo;
 

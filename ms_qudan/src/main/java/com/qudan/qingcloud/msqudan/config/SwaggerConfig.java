@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan.config;
+package com.qudan.qingcloud.msqudan.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +21,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.zhangheng.qingcloud.msqudan.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.qudan.qingcloud.msqudan.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -29,7 +29,7 @@ public class SwaggerConfig {
  
     private ApiInfo apiInfo() {
         ApiInfo apiInfo = new ApiInfo(
-                "趣单Resful API", "","1.0", "", "趣单","", null);
+                "趣单前端接口Resful API", "","1.0", "", "趣单","", null);
         return apiInfo;
     }
 }

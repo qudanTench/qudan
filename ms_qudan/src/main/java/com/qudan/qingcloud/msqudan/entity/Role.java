@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan.entity;
+package com.qudan.qingcloud.msqudan.entity;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;

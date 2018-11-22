@@ -1,4 +1,4 @@
-package com.zhangheng.qingcloud.msqudan.util;
+package com.qudan.qingcloud.msqudan.util;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

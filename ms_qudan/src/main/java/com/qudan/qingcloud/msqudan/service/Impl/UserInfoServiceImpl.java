@@ -1,9 +1,9 @@
-package com.zhangheng.qingcloud.msqudan.service.Impl;
+package com.qudan.qingcloud.msqudan.service.Impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.zhangheng.qingcloud.msqudan.mapper.UserMapper;
-import com.zhangheng.qingcloud.msqudan.service.UserInfoService;
-import com.zhangheng.qingcloud.msqudan.util.YHResult;
+import com.qudan.qingcloud.msqudan.mapper.UserMapper;
+import com.qudan.qingcloud.msqudan.service.UserInfoService;
+import com.qudan.qingcloud.msqudan.util.YHResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
